@@ -28,8 +28,8 @@ namespace CodeBase.ZenjectInstallers
 		private void PlayerViewFactory()
 		{
 			Container
-				.BindFactory<string, PlayerView, PlayerView.Factory>()
-				.FromFactory<PrefabResourceFactory<PlayerView>>();
+				.BindFactory<string, MinionView, MinionView.Factory>()
+				.FromFactory<PrefabResourceFactory<MinionView>>();
 		}
 		private void BulletViewFactory()
 		{

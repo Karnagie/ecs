@@ -43,7 +43,11 @@ namespace CodeBase.ZenjectInstallers
 
 		private void BindCommonSystems()
 		{
-			BindSystem<PlayerMoveSystem>();
+			BindSystem<CreateRoundSystem>();
+			BindSystem<CreateMinionViewSystem>();
+			BindSystem<CreateTmpNumberSystem>();
+
+			/*BindSystem<PlayerMoveSystem>();
 			BindSystem<MovementTimerSystem>();
 			BindSystem<MoveAliensSystem>();
 			BindSystem<CreateRoundSystem>();
@@ -71,7 +75,7 @@ namespace CodeBase.ZenjectInstallers
 			BindSystem<DestroyMissingBulletsSystem>();
 			BindSystem<UpdateViewPositionSystem>();
 			BindSystem<CheckGameOverSystem>();
-			BindSystem<CleanUpSystem>();
+			BindSystem<CleanUpSystem>();*/
 		}
 
 		void BindSystem<TSystem>() where TSystem : IEcsSystem => 

@@ -32,7 +32,7 @@ namespace CodeBase.Services.StaticData
 		public static LevelData NewBulletLootData(this LevelConfig x) =>
 			new LevelData
 			{
-				PlayerSpawnPoint = x.PlayerSpawnPoint,
+				PlayerSpawnPoints = x.PlayerSpawnPoint,
 				aliens = x.Aliens
 			};
 

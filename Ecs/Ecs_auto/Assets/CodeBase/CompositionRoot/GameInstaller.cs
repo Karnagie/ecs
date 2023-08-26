@@ -22,6 +22,7 @@ namespace CodeBase.CompositionRoot
 		public override void InstallBindings()
 		{
 			BindPlayerProgressService();
+			BindNumberTMPFactory();
 			BindTimeService();
 			BindInputService();
 			BindCoroutineRunner();
@@ -33,10 +34,13 @@ namespace CodeBase.CompositionRoot
 			BindViewsFactory();
 			BindGameplayEngine();
 			BindGameStateMachine();
+			Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
+
 		}
 
 
 		private void BindStaticData() => Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
+		private void BindNumberTMPFactory() => Container.Bind<INumberTMPFactory>().To<NumberTMPFactory>().AsSingle();
 
 		private void BindPlayerProgressService() =>
 			Container.Bind<IPlayerProgressService>().To<PlayerProgressService>().AsSingle();

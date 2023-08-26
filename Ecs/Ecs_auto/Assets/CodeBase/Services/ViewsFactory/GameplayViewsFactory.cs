@@ -1,12 +1,34 @@
+using CodeBase.ECS.Components;
 using CodeBase.MonoBehaviourView;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CodeBase.Services.ViewsFactory
 {
+	public interface INumberTMPFactory
+	{
+		Text CreateTmp(IUnityObjectView view);
+	}
+	
+	public class NumberTMPFactory:INumberTMPFactory
+	{
+		
+		public Text CreateTmp(IUnityObjectView view)
+		{
+			var unityObjectView = view as MonoBehaviour;
+			var tmpText = unityObjectView.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+			var text = new Text();
+			text.TMPText = tmpText;
+			return text;
+		}
+	}
+	
+
 	public interface IViewsFactory
 	{
 		IUnityObjectView CreateAlien(string path);
-		IUnityObjectView CreatePlayer(string spawnEventPath);
+		IUnityObjectView CreateMinion(string spawnEventPath);
 		IUnityObjectView CreateBullet(string spawnEventPath);
 		IUnityObjectView CreateLoot(string spawnEventPath);
 	}
@@ -14,15 +36,15 @@ namespace CodeBase.Services.ViewsFactory
 	public class ViewsFactory : IViewsFactory
 	{
 		private readonly AlienView.Factory alienFactory;
-		private readonly PlayerView.Factory playerFactory;
+		private readonly MinionView.Factory minionFactory;
 		private readonly BulletView.Factory bulletFactory;
 		private readonly LootView.Factory lootFactory;
 
-		public ViewsFactory(AlienView.Factory alienFactory, PlayerView.Factory playerFactory,
+		public ViewsFactory(AlienView.Factory alienFactory, MinionView.Factory minionFactory,
 			BulletView.Factory bulletFactory, LootView.Factory lootFactory)
 		{
 			this.alienFactory = alienFactory;
-			this.playerFactory = playerFactory;
+			this.minionFactory = minionFactory;
 			this.bulletFactory = bulletFactory;
 			this.lootFactory = lootFactory;
 		}
@@ -34,9 +56,9 @@ namespace CodeBase.Services.ViewsFactory
 			return view;
 		}
 
-		public IUnityObjectView CreatePlayer(string path)
+		public IUnityObjectView CreateMinion(string path)
 		{
-			var view = playerFactory.Create(path);
+			var view = minionFactory.Create(path);
 			SceneManager.MoveGameObjectToScene(view.gameObject, SceneManager.GetActiveScene());
 			return view;
 		}

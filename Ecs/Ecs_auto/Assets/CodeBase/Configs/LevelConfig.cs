@@ -9,7 +9,7 @@ namespace CodeBase.Configs
 	public class LevelConfig : ScriptableObject
 	{
 		public int Key;
-		public PlayerSpawnPoint PlayerSpawnPoint;
-		[FormerlySerializedAs("aliens")] public List<AlienSpawnPoint> Aliens;
+		public List<PlayerSpawnPoint> PlayerSpawnPoint;
+		public List<AlienSpawnPoint> Aliens;
 	}
 }

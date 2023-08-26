@@ -8,7 +8,7 @@ namespace CodeBase.ECS.Factories
 {
 	public class PlayerFactory
 	{
-		public static int Create(EcsWorld world, PlayerData config)
+		public static int Create(EcsWorld world, PlayerData config, int index)
 		{
 			var entity = world.NewEntity();
 
@@ -27,33 +27,11 @@ namespace CodeBase.ECS.Factories
 			ref var speed = ref speedPool.Add(entity);
 			speed.Value = config.Speed;
 
-			var gunPool = world.GetPool<Gun>();
-			ref var gun = ref gunPool.Add(entity);
-			gun.Direction = config.GunDirection;
 
-			var bodySize = world.GetPool<BodySize>();
-			ref var size = ref bodySize.Add(entity);
-			size.Radius = config.BodySize;
-
-			var bulletOwnerPool = world.GetPool<BulletOwner>();
-			ref var bulletOwner = ref bulletOwnerPool.Add(entity);
-			bulletOwner.Bullets = new Dictionary<BulletType, int>();
-			bulletOwner.Bullets.Add(config.BulletType, config.BulletCount);
-
-			var collideWithBulletPool = world.GetPool<CanCollideWithAlien>();
-			collideWithBulletPool.Add(entity);
-
-			var update = world.GetPool<UpdateBulletCountEvent>();
-			update.Add(entity);
-
-			var healthPool = world.GetPool<Health>();
-			ref var health = ref healthPool.Add(entity);
-			health.Max = config.Health;
-			health.Current = config.Health;
-
-			var hittablePool = world.GetPool<Hittable>();
-			hittablePool.Add(entity);
-
+			var markerPool = world.GetPool<CreateMarkerTMP>();
+			ref var markerTMP = ref markerPool.Add(entity);
+			markerTMP.Number = index;
+			
 			return entity;
 		}
 	}

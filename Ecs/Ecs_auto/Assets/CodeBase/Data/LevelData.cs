@@ -7,7 +7,7 @@ namespace CodeBase.Data
 	[Serializable]
 	public class LevelData
 	{
-		public PlayerSpawnPoint PlayerSpawnPoint;
+		public List<PlayerSpawnPoint> PlayerSpawnPoints;
 		public List<AlienSpawnPoint> aliens;
 	}
 }

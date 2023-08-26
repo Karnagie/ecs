@@ -14,8 +14,6 @@ namespace CodeBase.ECS.Systems.Create
 		private EcsFilter requestsFilter;
 		private EcsPool<RoundCreateRequest> requestPool;
 		private EcsPool<Used> usedPool;
-		private EcsPool<NextRoundEvent> nextRoundEvent;
-		private EcsPool<UpdateBulletCountEvent> updateBulletPool;
 
 		public CreateRoundSystem(IStaticDataService staticDataService)
 		{
@@ -28,8 +26,6 @@ namespace CodeBase.ECS.Systems.Create
 			requestsFilter = world.Filter<RoundCreateRequest>().Exc<Used>().End();
 
 			requestPool = world.GetPool<RoundCreateRequest>();
-			nextRoundEvent = world.GetPool<NextRoundEvent>();
-			updateBulletPool = world.GetPool<UpdateBulletCountEvent>();
 			usedPool = world.GetPool<Used>();
 		}
 
@@ -40,28 +36,21 @@ namespace CodeBase.ECS.Systems.Create
 				ref var levelCreateRequest = ref requestPool.Get(entity);
 				var levelConfig = levelCreateRequest.Config;
 
-				foreach (var alien in levelConfig.aliens)
-					CreateAlien(alien);
+				for (var index = 0; index < levelConfig.PlayerSpawnPoints.Count; index++)
+				{
+					var player = levelConfig.PlayerSpawnPoints[index];
+					CreatePlayer(player,index);
+				}
 
-				if (levelCreateRequest.WithPlayer) CreatePlayer(levelConfig.PlayerSpawnPoint);
 				usedPool.Add(entity);
-				nextRoundEvent.Add(world.NewEntity());
-				updateBulletPool.Add(world.NewEntity());
 			}
 		}
 
-		private void CreateAlien(AlienSpawnPoint spawnPoint)
-		{
-			var data = staticDataService.ForAlien(spawnPoint.AlienType);
-			data.Position = spawnPoint.Position;
-			AlienFactory.Create(world, data);
-		}
-
-		private void CreatePlayer(PlayerSpawnPoint spawnPoint)
+		private void CreatePlayer(PlayerSpawnPoint spawnPoint, int index)
 		{
 			var data = staticDataService.ForPlayer(spawnPoint.PlayerType);
 			data.Position = spawnPoint.PlayerInitialPoint;
-			PlayerFactory.Create(world, data);
+			PlayerFactory.Create(world, data,index);
 		}
 	}
 }

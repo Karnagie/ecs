@@ -15,5 +15,6 @@ namespace CodeBase.Data
 		public BulletType BulletType;
 		public int BulletCount;
 		public float Health;
+		public int Number;
 	}
 }
